@@ -7,7 +7,7 @@
 #include <vector>
 #include <cstring>
 
-#define MQTCP_PROTOCOL_VERSION 0
+#define MQTCP_PROTOCOL_VERSION 1
 #define MQTCP_INITIAL_MESSAGE_SIZE 4/*Message Size*/+1/*Message ID*/+1/*Version number*/+4/*Message Size*/+1/*Message ID*/+6/*Mac address*/ //Client name is not counted
 #define MQTCP_COMMON_TIMEOUT 30000
 
