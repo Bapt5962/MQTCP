@@ -55,7 +55,7 @@ Variable	uint8[]		Message
 
 ID = 1		Kick		Does not require an acknowledgement
 
-1 byte		uint8		Kick reason ID //TODO
+1 byte		uint8		Kick reason ID
 Variable	Variable	Complementary informations
 
 
