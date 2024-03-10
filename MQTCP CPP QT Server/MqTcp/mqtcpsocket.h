@@ -6,7 +6,7 @@
 #include <QDataStream>
 #include <QHostAddress>
 
-#define MQTCP_PROTOCOL_VERSION 0
+#define MQTCP_PROTOCOL_VERSION 1
 
 struct MacAddress
 {
