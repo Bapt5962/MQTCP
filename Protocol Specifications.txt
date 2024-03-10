@@ -1,0 +1,83 @@
+MQTCP - Protocol version 1
+
+
+
+[Acknowledgement Packet]
+
+1 byte		uint8		Constant : 0xFF
+
+
+
+[Base Header for Other Packets]
+
+4 bytes		uint32		Message size, fisrt byte should not be 0xFF, messase size value does not include itself
+1 byte		uint8		Type ID
+Variable	Variable	Data (determined by type ID)
+
+
+
+[Client to Server]
+
+ID = 0		Publish
+
+Variable	char[]		Topic
+1 byte		char		String terminator constant '\0'
+Variable	uint8[]		Message
+
+ID = 1		Subscribe
+
+Variable	char[]		Topic
+
+ID = 2		Login
+
+6 bytes		char[]		Mac address
+Variable	char[]		Client name
+
+ID = 3		Unsubscribe
+
+Variable	char[]		Topic
+
+ID = 4		Version number	Does not require an acknowledgement
+
+1 byte		uint8		Protocol version
+
+
+
+[Server to Client]
+
+ID = 0		Publish
+
+Variable	char[]		Publisher name
+1 byte		char		String terminator constant '\0'
+Variable	char[]		Topic
+1 byte		char		String terminator constant '\0'
+Variable	uint8[]		Message
+
+ID = 1		Kick		Does not require an acknowledgement
+
+1 byte		uint8		Kick reason ID //TODO
+Variable	Variable	Complementary informations
+
+
+
+[Server to Client : Kick messages]
+
+ID = 0		Unspecified reason
+
+No data
+
+ID = 1		String specified reason
+
+Variable	char[]		Reason
+
+ID = 2		Non matching protocol versions
+
+1 byte		uint8		Server protocol version
+
+ID = 3		Version not send as first message
+
+No data
+
+ID = 4		Login not send as second message
+
+No data
