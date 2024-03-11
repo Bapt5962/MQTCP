@@ -7,7 +7,6 @@ Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if
 - CPP Qt Server: V1.0.0 | Protocol V1
 
 # TODO
-- Add maximum message size configuration on server side, config will be sent to clients
 - Write example code for Arduino client
 - Make a Python client
 
