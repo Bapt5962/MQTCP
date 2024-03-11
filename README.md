@@ -1,6 +1,11 @@
 # MQTCP
 Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if it was worth publishing it, but here it is.
 
+# Current versions
+- MQTCP Protocol: V1
+- Arduino Client: V1.0.0 | Protocol V1
+- CPP Qt Server: V1.0.0 | Protocol V1
+
 # TODO
 - Add "secure mode" for Arduino client
 - Write example code for Arduino client
@@ -8,9 +13,9 @@ Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if
 
 # Libraries used
 
-Arduino Client :
+Arduino Client:
 - Arduino.h
 - WiFi.h
   
-Qt CPP Server :
+CPP Qt Server:
 - QT 5.14
