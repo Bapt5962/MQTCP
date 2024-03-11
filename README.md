@@ -3,7 +3,7 @@ Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if
 
 # Current versions
 - MQTCP Protocol: V1
-- Arduino Client: V1.0.0 | Protocol V1
+- Arduino Client: V1.1.0 | Protocol V1
 - CPP Qt Server: V1.0.0 | Protocol V1
 
 # TODO
@@ -18,4 +18,4 @@ Arduino Client:
 - WiFi.h
   
 CPP Qt Server:
-- QT 5.14
+- Qt 5.14

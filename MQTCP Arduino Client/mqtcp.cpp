@@ -7,7 +7,7 @@ String MqTcpClient::dataToString(const MqTcpMessage& message)
     return temp;
 }
 
-String MqTcpClient::dataToString(uint8_t* data, int start, int end)
+String MqTcpClient::dataToString(uint8_t* data, uint32_t start, uint32_t end)
 {
     String temp;
     dataToString(data, start, end, temp);
@@ -19,10 +19,10 @@ void MqTcpClient::dataToString(const MqTcpMessage& message, String& str)
     dataToString(message.message, 0, message.messageSize, str);
 }
 
-void MqTcpClient::dataToString(uint8_t* data, int start, int end, String& str)
+void MqTcpClient::dataToString(uint8_t* data, uint32_t start, uint32_t end, String& str)
 {
     str = "";
-    for(int i = start; i < end; i++)
+    for(uint32_t i = start; i < end; i++)
     {
         str += (char)(data[i]);
     }
@@ -44,16 +44,21 @@ void MqTcpClient::connect(IPAddress ip, uint16_t port)
     connect();
 }
 
-void MqTcpClient::publish(String topic, String msg)
+bool MqTcpClient::publish(String topic, String msg)
 {
-    publish(topic, (uint8_t*)msg.c_str(), msg.length());
+    return publish(topic, (uint8_t*)msg.c_str(), msg.length());
 }
 
-void MqTcpClient::publish(String topic, uint8_t* msg, int msgSize)
+bool MqTcpClient::publish(String topic, uint8_t* msg, uint32_t msgSize)
 {
     //2 bytes for Message ID + '\0'
     //bufferSizeReduced = bufferSize - 4 (message size)
     const uint32_t bufferSizeReduced(2 + topic.length() + msgSize);
+
+    #if MQTCP_SECURE_MODE
+        if(bufferSizeReduced >= (0xFF000000 - clientName - 1)) //Also take into account the server publish
+            return false;
+    #endif
 
     uint8_t* buffer = (uint8_t*)malloc(bufferSizeReduced + 4);
 
@@ -64,20 +69,22 @@ void MqTcpClient::publish(String topic, uint8_t* msg, int msgSize)
     buffer[4] = ClientPublish;
 
     //Write message MQTCP topic
-    for (int i = 5; i < topic.length() + 5; i++)
+    for (unsigned int i = 5; i < topic.length() + 5; i++)
     {
         buffer[i] = topic[i - 5];
     }
     buffer[topic.length() + 5] = '\0';
 
     //Write message
-    for (int i = topic.length() + 6; i < bufferSizeReduced + 4; i++)
+    for (unsigned int i = topic.length() + 6; i < bufferSizeReduced + 4; i++)
     {
         buffer[i] = msg[i - topic.length() - 6];
     }
     //messagesQueued.push_back('\0');
     
     messagesQueued.push_back(buffer);
+
+    return true;
 }
 
 void MqTcpClient::subscribe(String topic)
@@ -195,7 +202,7 @@ bool MqTcpClient::connect()
 
     //Write the two messages
     uint32_t timeout = millis() + MQTCP_COMMON_TIMEOUT;
-    int written = 0;
+    size_t written = 0;
     while (written < baseMessageSize)
     {
         if(timeout < millis())
@@ -256,7 +263,7 @@ void MqTcpClient::readWifi()
                 Serial.print(buffer[b]);
             }
             Serial.println("");*/
-            int bufferReading = 1;
+            uint32_t bufferReading = 1;
             switch (buffer[0])
             {
             case ServerPublish:
@@ -281,7 +288,7 @@ void MqTcpClient::readWifi()
                 case KickStringSpecified:
                 {
                     String reason;
-                    int bufferRead = 2;
+                    uint32_t bufferRead = 2;
                     readNonTerminatedString((char*)buffer, bufferRead, nextMessageSize, reason);
                     Serial.println("MQTCP Server kicked us for following reason:");
                     Serial.println(reason);
@@ -339,7 +346,7 @@ void MqTcpClient::subUnsub(String topic, MessageMQTCPClientType type)
     messagesQueued.push_back(buffer);
 }
 
-void MqTcpClient::readNullTerminatedString(char* buffer, int& index, uint32_t size, String& string)
+void MqTcpClient::readNullTerminatedString(char* buffer, uint32_t& index, uint32_t size, String& string)
 {
     string = "";
     while (index < size) {
@@ -350,7 +357,7 @@ void MqTcpClient::readNullTerminatedString(char* buffer, int& index, uint32_t si
     }
 }
 
-void MqTcpClient::readNonTerminatedString(char* buffer, int& index, uint32_t size, String& string)
+void MqTcpClient::readNonTerminatedString(char* buffer, uint32_t& index, uint32_t size, String& string)
 {
     string = "";
     while (index < size) {
@@ -359,7 +366,7 @@ void MqTcpClient::readNonTerminatedString(char* buffer, int& index, uint32_t siz
     }
 }
 
-void MqTcpClient::readData(char* buffer, int& index, uint32_t size, uint8_t* bufferOut)
+void MqTcpClient::readData(char* buffer, uint32_t& index, uint32_t size, uint8_t* bufferOut)
 {
     int offset = index;
     while (index < size) {

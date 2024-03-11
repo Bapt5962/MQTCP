@@ -1,7 +1,7 @@
 /*
 mqtcp.hpp
 
-Version: 1.0.0
+Version: 1.1.0
 Protocol Version: 1
 
 This file is part of MQTCP Arduino Client.
@@ -31,6 +31,12 @@ Author: Bapt59
 #include <vector>
 #include <cstring>
 
+//Set to true if you want the library to check :
+//- Size of publish packets
+//
+//Set to false to disable these securities and increase performance
+#define MQTCP_SECURE_MODE false
+
 #define MQTCP_PROTOCOL_VERSION 1
 #define MQTCP_INITIAL_MESSAGE_SIZE 4/*Message Size*/+1/*Message ID*/+1/*Version number*/+4/*Message Size*/+1/*Message ID*/+6/*Mac address*/ //Client name is not counted
 #define MQTCP_COMMON_TIMEOUT 30000
@@ -57,11 +63,11 @@ public:
     //Convert all of message.message to a returned String
     static String dataToString(const MqTcpMessage& message);
     //Convert data from start index (included) to end index (excluded) to a returned String
-    static String dataToString(uint8_t* data, int start, int end);
+    static String dataToString(uint8_t* data, uint32_t start, uint32_t end);
     //Convert all of message.message to the string str
     static void dataToString(const MqTcpMessage& message, String& str);
     //Convert data from start index (included) to end index (excluded) to the string str
-    static void dataToString(uint8_t* data, int start, int end, String& str);
+    static void dataToString(uint8_t* data, uint32_t start, uint32_t end, String& str);
     
     MqTcpClient(String name);
 
@@ -72,10 +78,12 @@ public:
 
     //Prepare a packet to send with a topic and a message
     //Warning : putting '\0' in the topic is unauthorized and the server will kick you if you do that
-    void publish(String topic, String msg);
+    //Return true if the packet was added to the list, always return true if not on secure mode
+    bool publish(String topic, String msg);
     //Prepare a packet to send with a topic and a message
     //Warning : putting '\0' in the topic is unauthorized and the server will kick you if you do that
-    void publish(String topic, uint8_t* msg, int msgSize);
+    //Return true if the packet was added to the list, always return true if not on secure mode
+    bool publish(String topic, uint8_t* msg, uint32_t msgSize);
 
     //Prepare a packet to subscribe to a topic to the server
     void subscribe(String topic);
@@ -129,9 +137,9 @@ private:
     void writeMessageSize(uint8_t* buffer, uint32_t messageSize);
     void subUnsub(String topic, MessageMQTCPClientType type);
 
-    void readNullTerminatedString(char* buffer, int& index, uint32_t size, String& string);
-    void readNonTerminatedString(char* buffer, int& index, uint32_t size, String& string);
-    void readData(char* buffer, int& index, uint32_t size, uint8_t* bufferOut);
+    void readNullTerminatedString(char* buffer, uint32_t& index, uint32_t size, String& string);
+    void readNonTerminatedString(char* buffer, uint32_t& index, uint32_t size, String& string);
+    void readData(char* buffer, uint32_t& index, uint32_t size, uint8_t* bufferOut);
 
     WiFiClient client;
     String clientName;
