@@ -2,7 +2,8 @@
 Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if it was worth publishing it, but here it is.
 
 # TODO
-Make a Python client
+- Write example code for Arduino client
+- Make a Python client
 
 # Libraries used
 
