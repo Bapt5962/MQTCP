@@ -37,6 +37,14 @@ MqTcpClient::MqTcpClient(String name)
     renit();
 }
 
+MqTcpClient::~MqTcpClient()
+{
+    for(int m = 0; m < messagesQueued.size(); m++)
+    {
+        free(messagesQueued[m]);
+    }
+}
+
 void MqTcpClient::connect(IPAddress ip, uint16_t port)
 {
     serverIp = ip;

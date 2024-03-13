@@ -1,7 +1,7 @@
 /*
 mqtcp.hpp
 
-Version: 1.1.0
+Version: 1.1.1
 Protocol Version: 1
 
 This file is part of MQTCP Arduino Client.
@@ -70,6 +70,7 @@ public:
     static void dataToString(uint8_t* data, uint32_t start, uint32_t end, String& str);
     
     MqTcpClient(String name);
+    ~MqTcpClient();
 
     //Set server IP and port
     //Setting port to 0 (default value) disable the client
