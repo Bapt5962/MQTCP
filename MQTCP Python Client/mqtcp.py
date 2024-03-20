@@ -1,7 +1,7 @@
 '''
 mqtcp.py
 
-Version: 1.0.0
+Version: 1.0.1
 Protocol Version: 1
 
 This file is part of MQTCP Python Client.
@@ -203,12 +203,9 @@ class MqTcpClient:
         if self.send_acknowledgement_soon:
             return
         if self.next_msg_length != 0:
-            print(self.msg_buffer)
-            print(self.next_msg_length)
             while len(self.msg_buffer) < self.next_msg_length:
                 try:
                     data = self.client_socket.recv(1)
-                    print(data)
                     if not data:  # If no data is received, break the loop
                         break
                     self.msg_buffer += bytearray(data)
