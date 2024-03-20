@@ -1,5 +1,5 @@
 # MQTCP
-Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if it was worth publishing it, but here it is.
+Just an alternative to MQTT I made for myself. No idea if it's worth publishing, but here it is anyway.
 
 # Current versions
 - MQTCP Protocol: V1
