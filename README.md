@@ -17,6 +17,10 @@ Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if
 Arduino Client:
 - Arduino.h
 - WiFi.h
+
+Python Client:
+- socket
+- uuid
   
 CPP Qt Server:
 - Qt 5.14
