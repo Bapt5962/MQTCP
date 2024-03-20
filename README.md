@@ -4,7 +4,7 @@ Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if
 # Current versions
 - MQTCP Protocol: V1
 - Arduino Client: V1.1.2 | Protocol V1
-- Python Client: V1.0.0 | Protocol V1
+- Python Client: V1.0.1 | Protocol V1
 - CPP Qt Server: V1.0.1 | Protocol V1
 
 # TODO
