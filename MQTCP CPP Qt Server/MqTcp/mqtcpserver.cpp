@@ -98,7 +98,7 @@ void MqTcpServer::checkForTransfer()
     {
         if(sockets->at(s) == socket)
             continue;
-        if(sockets->at(s)->getMacAddress() == socket->getMacAddress())
+        if(sockets->at(s)->getMacAddress() == socket->getMacAddress() && sockets->at(s)->getClientName() == socket->getClientName())
         {
             delete socket->getMessageQueue();
             socket->setMessageQueue(sockets->at(s)->getMessageQueue());

@@ -44,7 +44,7 @@ void MqTcpSocket::write(const QString &author, const QString &topic, const QByte
 
 void MqTcpSocket::forceWrite(const QString &author, const QString &topic, const QByteArray &message)
 {
-    if(dead || toKick)
+    if(toKick)
         return;
     QByteArray msg;
     msg.append(quint8(ServerPublish));
@@ -60,7 +60,7 @@ void MqTcpSocket::forceWrite(const QString &author, const QString &topic, const 
 
 void MqTcpSocket::packMessage(const QByteArray &message)
 {
-    if(dead || toKick)
+    if(toKick)
         return;
 
     messageQueue->append(QByteArray());
@@ -129,6 +129,7 @@ void MqTcpSocket::dataGet()
                     messageQueue->removeFirst();
                     waitingAcknowledgement = false;
                 }
+                emit wakeUp();
                 return;
             }
             messageLengthPart++;
