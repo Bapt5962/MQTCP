@@ -284,7 +284,6 @@ void MqTcpClient::readWifi()
                 pendingMessage.messageSize = nextMessageSize - bufferReading;
                 readData((char*)buffer, bufferReading, nextMessageSize, pendingMessage.message);
                 hasPendingMessage = true;
-                nextMessageSize = 0;
                 sendAcknowledgementSoon = true;
                 break;
             case ServerKick:
@@ -318,6 +317,7 @@ void MqTcpClient::readWifi()
                 }
                 break;
             }
+            nextMessageSize = 0;
             free(buffer);
         }
     }
@@ -376,7 +376,7 @@ void MqTcpClient::readNonTerminatedString(char* buffer, uint32_t& index, uint32_
 
 void MqTcpClient::readData(char* buffer, uint32_t& index, uint32_t size, uint8_t* bufferOut)
 {
-    int offset = index;
+    const int offset = index;
     while (index < size) {
         bufferOut[index - offset] = buffer[index];
         index++;
