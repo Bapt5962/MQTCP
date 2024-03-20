@@ -10,6 +10,7 @@ Couldn't get MQTT to work in under an hour, so I made this in a week. No idea if
 # TODO
 - Write example code for Arduino client
 - Write example code for Python client
+- Add Login security (Unique author name and pre-defined author names associated with passwords on server)
 
 # Libraries used
 
