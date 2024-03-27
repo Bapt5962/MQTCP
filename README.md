@@ -3,7 +3,7 @@ Just an alternative to MQTT I made for myself. No idea if it's worth publishing,
 
 # Current versions
 - MQTCP Protocol: V1
-- Arduino Client: V1.1.2 | Protocol V1
+- Arduino Client: V1.1.3 | Protocol V1
 - Python Client: V1.0.1 | Protocol V1
 - CPP Qt Server: V1.0.1 | Protocol V1
 

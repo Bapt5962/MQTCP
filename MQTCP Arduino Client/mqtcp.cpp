@@ -239,8 +239,11 @@ void MqTcpClient::readWifi()
                 if(waitingForAcknowledgement)
                 {
                     //Delete message from client
-                    free(messagesQueued[0]);
-                    messagesQueued.erase(messagesQueued.begin(), messagesQueued.begin() + 1);
+                    if(messagesQueued.size() > 0)
+                    {
+                        free(messagesQueued[0]);
+                        messagesQueued.erase(messagesQueued.begin(), messagesQueued.begin() + 1);
+                    }
                     waitingForAcknowledgement = false;
                 }
                 return;

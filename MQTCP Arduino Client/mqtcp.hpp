@@ -1,7 +1,7 @@
 /*
 mqtcp.hpp
 
-Version: 1.1.2
+Version: 1.1.3
 Protocol Version: 1
 
 This file is part of MQTCP Arduino Client.
